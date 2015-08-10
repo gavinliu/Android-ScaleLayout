@@ -21,6 +21,11 @@
         <attr name="layout_marginBottom" format="dimension" />
         <attr name="layout_marginStart" format="dimension" />
         <attr name="layout_marginEnd" format="dimension" />
+
+        <attr name="layout_paddingLeft" format="dimension" />
+        <attr name="layout_paddingTop" format="dimension" />
+        <attr name="layout_paddingRight" format="dimension" />
+        <attr name="layout_paddingBottom" format="dimension" />
     </declare-styleable>
 
 </resources>

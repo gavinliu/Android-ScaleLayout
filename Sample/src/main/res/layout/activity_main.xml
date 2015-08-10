@@ -1,4 +1,4 @@
-<cn.gavinliu.android.lib.scale.ScaleFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<cn.gavinliu.android.lib.scale.ScaleRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,13 +7,29 @@
     app:layout_design_width="@dimen/app_design_width">
 
     <TextView
+        android:id="@+id/view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#dedede"
-        android:gravity="center"
+        android:background="#46b34b"
         android:text="@string/hello_world"
-        app:layout_height="50dp"
+        app:layout_height="120dp"
+        app:layout_marginLeft="12dp"
+        app:layout_marginTop="8dp"
         app:layout_scale_by="width"
-        app:layout_width="100dp" />
+        app:layout_width="166dp" />
 
-</cn.gavinliu.android.lib.scale.ScaleFrameLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/view"
+        android:background="#46b34b"
+        android:text="@string/hello_world"
+        app:layout_height="120dp"
+        app:layout_marginLeft="4dp"
+        app:layout_marginTop="8dp"
+        app:layout_paddingLeft="12dp"
+        app:layout_paddingTop="12dp"
+        app:layout_scale_by="width"
+        app:layout_width="166dp" />
+
+</cn.gavinliu.android.lib.scale.ScaleRelativeLayout>

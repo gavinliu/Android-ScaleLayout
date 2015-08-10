@@ -68,12 +68,12 @@ public class ScaleLayoutHelper {
                 Log.d(TAG, "using " + info);
                 if (info != null) {
                     info.setDesignSize(designWidth, designHeight, designDensity);
-
                     if (params instanceof ViewGroup.MarginLayoutParams) {
                         info.fillMarginLayoutParams((ViewGroup.MarginLayoutParams) params);
                     } else {
                         info.fillLayoutParams(params);
                     }
+                    view.setPadding(info.leftPadding, info.topPadding, info.rightPadding, info.bottomPadding);
                 }
             }
         }
@@ -128,6 +128,75 @@ public class ScaleLayoutHelper {
         if (value != 0) {
             info = info != null ? info : new ScaleLayoutInfo(context);
             info.scaleBy = value;
+        }
+
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_margin, 0);
+        if (value != 0) {
+            info = info != null ? info : new ScaleLayoutInfo(context);
+            info.leftMargin = value;
+            info.topMargin = value;
+            info.rightMargin = value;
+            info.bottomMargin = value;
+        }
+
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_marginLeft, 0);
+        if (value != 0) {
+            info = info != null ? info : new ScaleLayoutInfo(context);
+            info.leftMargin = value;
+        }
+
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_marginTop, 0);
+        if (value != 0) {
+            info = info != null ? info : new ScaleLayoutInfo(context);
+            info.topMargin = value;
+        }
+
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_marginRight, 0);
+        if (value != 0) {
+            info = info != null ? info : new ScaleLayoutInfo(context);
+            info.rightMargin = value;
+        }
+
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_marginBottom, 0);
+        if (value != 0) {
+            info = info != null ? info : new ScaleLayoutInfo(context);
+            info.bottomMargin = value;
+        }
+
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_marginStart, 0);
+        if (value != 0) {
+            info = info != null ? info : new ScaleLayoutInfo(context);
+            info.startMargin = value;
+        }
+
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_marginEnd, 0);
+        if (value != 0) {
+            info = info != null ? info : new ScaleLayoutInfo(context);
+            info.endMargin = value;
+        }
+
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_paddingLeft, 0);
+        if (value != 0) {
+            info = info != null ? info : new ScaleLayoutInfo(context);
+            info.leftPadding = value;
+        }
+
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_paddingTop, 0);
+        if (value != 0) {
+            info = info != null ? info : new ScaleLayoutInfo(context);
+            info.topPadding = value;
+        }
+
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_paddingRight, 0);
+        if (value != 0) {
+            info = info != null ? info : new ScaleLayoutInfo(context);
+            info.rightPadding = value;
+        }
+
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_paddingBottom, 0);
+        if (value != 0) {
+            info = info != null ? info : new ScaleLayoutInfo(context);
+            info.bottomPadding = value;
         }
 
         array.recycle();
@@ -188,10 +257,21 @@ public class ScaleLayoutHelper {
         public float width = 0;
         public float height = 0;
 
-        public int scaleBy = 0;
-
+        private int scaleBy = ScaleByWidth;
         private static final int ScaleByWidth = 0;
         private static final int ScaleByHeight = 1;
+
+        private float leftMargin;
+        private float topMargin;
+        private float rightMargin;
+        private float bottomMargin;
+        private float startMargin;
+        private float endMargin;
+
+        private int leftPadding;
+        private int topPadding;
+        private int rightPadding;
+        private int bottomPadding;
 
         final ViewGroup.MarginLayoutParams mPreservedParams = new ViewGroup.MarginLayoutParams(0, 0);
 
@@ -212,8 +292,6 @@ public class ScaleLayoutHelper {
             if (this.height > 0) {
                 params.height = getRealPixelSize(this.height);
             }
-
-            Log.d(TAG, "after fillLayoutParams: (" + params.width + ", " + params.height + ")");
         }
 
         public void fillMarginLayoutParams(ViewGroup.MarginLayoutParams params) {
@@ -225,8 +303,30 @@ public class ScaleLayoutHelper {
             MarginLayoutParamsCompat.setMarginStart(this.mPreservedParams, MarginLayoutParamsCompat.getMarginStart(params));
             MarginLayoutParamsCompat.setMarginEnd(this.mPreservedParams, MarginLayoutParamsCompat.getMarginEnd(params));
 
+            if (this.leftMargin >= 0.0F) {
+                params.leftMargin = getRealPixelSize(this.leftMargin);
+            }
 
-            Log.d(TAG, "after fillMarginLayoutParams: (" + params.width + ", " + params.height + ")");
+            if (this.topMargin >= 0.0F) {
+                params.topMargin = getRealPixelSize(this.topMargin);
+            }
+
+            if (this.rightMargin >= 0.0F) {
+                params.rightMargin = getRealPixelSize(this.rightMargin);
+            }
+
+            if (this.bottomMargin >= 0.0F) {
+                params.bottomMargin = getRealPixelSize(this.bottomMargin);
+            }
+
+            if (this.startMargin >= 0.0F) {
+                MarginLayoutParamsCompat.setMarginStart(params, getRealPixelSize(this.startMargin));
+            }
+
+            if (this.endMargin >= 0.0F) {
+                MarginLayoutParamsCompat.setMarginEnd(params, getRealPixelSize(this.endMargin));
+            }
+
         }
 
         public void restoreMarginLayoutParams(ViewGroup.MarginLayoutParams params) {
