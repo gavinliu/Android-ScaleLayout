@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ScaleLayout_Layout">
+        <attr name="layout_design_width" format="dimension" />
+        <attr name="layout_design_height" format="dimension" />
+        <attr name="layout_design_density" format="integer" />
+
+        <attr name="layout_width" format="dimension" />
+        <attr name="layout_height" format="dimension" />
+
+        <attr name="layout_margin" format="dimension" />
+        <attr name="layout_marginLeft" format="dimension" />
+        <attr name="layout_marginTop" format="dimension" />
+        <attr name="layout_marginRight" format="dimension" />
+        <attr name="layout_marginBottom" format="dimension" />
+        <attr name="layout_marginStart" format="dimension" />
+        <attr name="layout_marginEnd" format="dimension" />
+    </declare-styleable>
+
+</resources>
