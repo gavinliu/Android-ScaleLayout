@@ -27,11 +27,31 @@ public class ScaleLayoutHelper {
         ScaleLayoutInfo getScaleLayoutInfo();
     }
 
-    public ScaleLayoutHelper(ViewGroup mHost, float designWidth, float designHeight, float designDensity) {
+    private ScaleLayoutHelper(ViewGroup mHost, float designWidth, float designHeight, float designDensity) {
         this.mHost = mHost;
         this.designWidth = designWidth;
         this.designHeight = designHeight;
         this.designDensity = designDensity;
+    }
+
+    public static ScaleLayoutHelper create(ViewGroup view, AttributeSet attrs) {
+        TypedArray array = view.getContext().obtainStyledAttributes(attrs, R.styleable.ScaleLayout);
+        int width = 0, height = 0, density = 0;
+
+        int value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_design_width, 0);
+        if (value != 0) {
+            width = value;
+        }
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_design_height, 0);
+        if (value != 0) {
+            height = value;
+        }
+        value = array.getInteger(R.styleable.ScaleLayout_layout_design_density, 0);
+        if (value != 0) {
+            density = value;
+        }
+        array.recycle();
+        return new ScaleLayoutHelper(view, width, height, density);
     }
 
     public void adjustChildren(int widthMeasureSpec, int heightMeasureSpec) {
@@ -90,18 +110,24 @@ public class ScaleLayoutHelper {
 
     public static ScaleLayoutInfo getScaleLayoutInfo(Context context, AttributeSet attrs) {
         ScaleLayoutInfo info = null;
-        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ScaleLayout_Layout);
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ScaleLayout);
 
-        int pixel = array.getDimensionPixelSize(R.styleable.ScaleLayout_Layout_layout_width, 0);
-        if (pixel != 0) {
+        int value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_width, 0);
+        if (value != 0) {
             info = new ScaleLayoutInfo(context);
-            info.width = pixel;
+            info.width = value;
         }
 
-        pixel = array.getDimensionPixelSize(R.styleable.ScaleLayout_Layout_layout_height, 0);
-        if (pixel != 0) {
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_height, 0);
+        if (value != 0) {
             info = info != null ? info : new ScaleLayoutInfo(context);
-            info.height = pixel;
+            info.height = value;
+        }
+
+        value = array.getInt(R.styleable.ScaleLayout_layout_scale_by, 0);
+        if (value != 0) {
+            info = info != null ? info : new ScaleLayoutInfo(context);
+            info.scaleBy = value;
         }
 
         array.recycle();
@@ -162,6 +188,11 @@ public class ScaleLayoutHelper {
         public float width = 0;
         public float height = 0;
 
+        public int scaleBy = 0;
+
+        private static final int ScaleByWidth = 0;
+        private static final int ScaleByHeight = 1;
+
         final ViewGroup.MarginLayoutParams mPreservedParams = new ViewGroup.MarginLayoutParams(0, 0);
 
         public ScaleLayoutInfo(Context ctx) {
@@ -175,11 +206,11 @@ public class ScaleLayoutHelper {
             this.mPreservedParams.height = params.height;
 
             if (this.width > 0) {
-                params.width = getRealPixelSize(this.width, screenW, designWidth);
+                params.width = getRealPixelSize(this.width);
             }
 
             if (this.height > 0) {
-                params.height = getRealPixelSize(this.height, screenW, designWidth);
+                params.height = getRealPixelSize(this.height);
             }
 
             Log.d(TAG, "after fillLayoutParams: (" + params.width + ", " + params.height + ")");
@@ -211,6 +242,21 @@ public class ScaleLayoutHelper {
         public void restoreLayoutParams(ViewGroup.LayoutParams params) {
             params.width = this.mPreservedParams.width;
             params.height = this.mPreservedParams.height;
+        }
+
+        private int getRealPixelSize(float pix) {
+            float screen, design;
+            switch (scaleBy) {
+                case ScaleByHeight:
+                    screen = screenH;
+                    design = designHeight;
+                    break;
+                default:
+                    screen = screenW;
+                    design = designWidth;
+                    break;
+            }
+            return getRealPixelSize(pix, screen, design);
         }
 
         private int getRealPixelSize(float pix, float screen, float designPixel) {

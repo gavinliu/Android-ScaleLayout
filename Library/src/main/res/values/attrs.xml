@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="ScaleLayout_Layout">
+    <declare-styleable name="ScaleLayout">
+
+        <attr name="layout_scale_by" format="enum">
+            <enum name="width" value="0" />
+            <enum name="height" value="1" />
+        </attr>
+
         <attr name="layout_design_width" format="dimension" />
         <attr name="layout_design_height" format="dimension" />
         <attr name="layout_design_density" format="integer" />

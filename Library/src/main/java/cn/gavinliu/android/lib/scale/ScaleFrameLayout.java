@@ -3,33 +3,33 @@ package cn.gavinliu.android.lib.scale;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
 
 import cn.gavinliu.android.lib.scale.helper.ScaleLayoutHelper;
 
 /**
  * Created by GavinLiu on 2015-08-10
  */
-public class ScaleRelativeLayout extends RelativeLayout {
+public class ScaleFrameLayout extends FrameLayout {
 
     private ScaleLayoutHelper mHelper;
 
-    public ScaleRelativeLayout(Context context) {
+    public ScaleFrameLayout(Context context) {
         this(context, null);
     }
 
-    public ScaleRelativeLayout(Context context, AttributeSet attrs) {
+    public ScaleFrameLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ScaleRelativeLayout(Context context, AttributeSet attrs, int defStyle) {
+    public ScaleFrameLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mHelper = ScaleLayoutHelper.create(this, attrs);
     }
 
     @Override
-    public ScaleRelativeLayout.LayoutParams generateLayoutParams(AttributeSet attrs) {
-        return new ScaleRelativeLayout.LayoutParams(this.getContext(), attrs);
+    public ScaleFrameLayout.LayoutParams generateLayoutParams(AttributeSet attrs) {
+        return new ScaleFrameLayout.LayoutParams(this.getContext(), attrs);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class ScaleRelativeLayout extends RelativeLayout {
         this.mHelper.restoreOriginalParams();
     }
 
-    public static class LayoutParams extends android.widget.RelativeLayout.LayoutParams implements ScaleLayoutHelper.ScaleLayoutParams {
+    public static class LayoutParams extends FrameLayout.LayoutParams implements ScaleLayoutHelper.ScaleLayoutParams {
         private ScaleLayoutHelper.ScaleLayoutInfo mPercentLayoutInfo;
 
         public LayoutParams(Context c, AttributeSet attrs) {
