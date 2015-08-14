@@ -19,39 +19,19 @@ public class ScaleLayoutHelper {
     private static final String TAG = "ScaleLayoutHelper";
     private final ViewGroup mHost;
 
-    private float designWidth;
-    private float designHeight;
-    private float designDensity;
+    private ScaleLayoutInfo mHostLayoutInfo;
 
     public interface ScaleLayoutParams {
         ScaleLayoutInfo getScaleLayoutInfo();
     }
 
-    private ScaleLayoutHelper(ViewGroup mHost, float designWidth, float designHeight, float designDensity) {
-        this.mHost = mHost;
-        this.designWidth = designWidth;
-        this.designHeight = designHeight;
-        this.designDensity = designDensity;
+    public ScaleLayoutHelper(ViewGroup host, ScaleLayoutInfo layoutInfo) {
+        this.mHost = host;
+        this.mHostLayoutInfo = layoutInfo;
     }
 
     public static ScaleLayoutHelper create(ViewGroup view, AttributeSet attrs) {
-        TypedArray array = view.getContext().obtainStyledAttributes(attrs, R.styleable.ScaleLayout);
-        int width = 0, height = 0, density = 0;
-
-        int value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_design_width, 0);
-        if (value != 0) {
-            width = value;
-        }
-        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_design_height, 0);
-        if (value != 0) {
-            height = value;
-        }
-        value = array.getInteger(R.styleable.ScaleLayout_layout_design_density, 0);
-        if (value != 0) {
-            density = value;
-        }
-        array.recycle();
-        return new ScaleLayoutHelper(view, width, height, density);
+        return new ScaleLayoutHelper(view, getScaleLayoutInfo(view.getContext(), attrs));
     }
 
     public void adjustChildren(int widthMeasureSpec, int heightMeasureSpec) {
@@ -66,8 +46,8 @@ public class ScaleLayoutHelper {
             if (params instanceof ScaleLayoutParams) {
                 ScaleLayoutInfo info = ((ScaleLayoutParams) params).getScaleLayoutInfo();
                 Log.d(TAG, "using " + info);
-                if (info != null) {
-                    info.setDesignSize(designWidth, designHeight, designDensity);
+                if (info != null && mHostLayoutInfo != null) {
+                    info.setDesignSize(mHostLayoutInfo.designWidth, mHostLayoutInfo.designHeight, mHostLayoutInfo.designDensity);
                     if (params instanceof ViewGroup.MarginLayoutParams) {
                         info.fillMarginLayoutParams((ViewGroup.MarginLayoutParams) params);
                     } else {
@@ -76,6 +56,18 @@ public class ScaleLayoutHelper {
                     view.setPadding(info.leftPadding, info.topPadding, info.rightPadding, info.bottomPadding);
                 }
             }
+        }
+    }
+
+    public void adjustSelf(int widthMeasureSpec, int heightMeasureSpec) {
+        if (mHostLayoutInfo != null) {
+            ViewGroup.LayoutParams params = mHost.getLayoutParams();
+            if (params instanceof ViewGroup.MarginLayoutParams) {
+                mHostLayoutInfo.fillMarginLayoutParams((ViewGroup.MarginLayoutParams) params);
+            } else {
+                mHostLayoutInfo.fillLayoutParams(params);
+            }
+            mHost.setPadding(mHostLayoutInfo.leftPadding, mHostLayoutInfo.topPadding, mHostLayoutInfo.rightPadding, mHostLayoutInfo.bottomPadding);
         }
     }
 
@@ -199,6 +191,24 @@ public class ScaleLayoutHelper {
             info.bottomPadding = value;
         }
 
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_design_width, 0);
+        if (value != 0) {
+            info = info != null ? info : new ScaleLayoutInfo(context);
+            info.designWidth = value;
+        }
+
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_design_height, 0);
+        if (value != 0) {
+            info = info != null ? info : new ScaleLayoutInfo(context);
+            info.designHeight = value;
+        }
+
+        value = array.getInteger(R.styleable.ScaleLayout_layout_design_density, 0);
+        if (value != 0) {
+            info = info != null ? info : new ScaleLayoutInfo(context);
+            info.designDensity = value;
+        }
+
         array.recycle();
 
         Log.d(TAG, "constructed: " + info);
@@ -285,12 +295,28 @@ public class ScaleLayoutHelper {
             this.mPreservedParams.width = params.width;
             this.mPreservedParams.height = params.height;
 
-            if (this.width > 0) {
+            if (this.width > 0.0F) {
                 params.width = getRealPixelSize(this.width);
             }
 
-            if (this.height > 0) {
+            if (this.height > 0.0F) {
                 params.height = getRealPixelSize(this.height);
+            }
+
+            if (this.leftPadding > 0.0F) {
+                this.leftPadding = getRealPixelSize(this.leftPadding);
+            }
+
+            if (this.topPadding > 0.0F) {
+                this.topPadding = getRealPixelSize(this.topPadding);
+            }
+
+            if (this.rightPadding > 0.0F) {
+                this.rightPadding = getRealPixelSize(this.rightPadding);
+            }
+
+            if (this.bottomPadding > 0.0F) {
+                this.bottomPadding = getRealPixelSize(this.bottomPadding);
             }
         }
 
@@ -303,27 +329,27 @@ public class ScaleLayoutHelper {
             MarginLayoutParamsCompat.setMarginStart(this.mPreservedParams, MarginLayoutParamsCompat.getMarginStart(params));
             MarginLayoutParamsCompat.setMarginEnd(this.mPreservedParams, MarginLayoutParamsCompat.getMarginEnd(params));
 
-            if (this.leftMargin >= 0.0F) {
+            if (this.leftMargin > 0.0F) {
                 params.leftMargin = getRealPixelSize(this.leftMargin);
             }
 
-            if (this.topMargin >= 0.0F) {
+            if (this.topMargin > 0.0F) {
                 params.topMargin = getRealPixelSize(this.topMargin);
             }
 
-            if (this.rightMargin >= 0.0F) {
+            if (this.rightMargin > 0.0F) {
                 params.rightMargin = getRealPixelSize(this.rightMargin);
             }
 
-            if (this.bottomMargin >= 0.0F) {
+            if (this.bottomMargin > 0.0F) {
                 params.bottomMargin = getRealPixelSize(this.bottomMargin);
             }
 
-            if (this.startMargin >= 0.0F) {
+            if (this.startMargin > 0.0F) {
                 MarginLayoutParamsCompat.setMarginStart(params, getRealPixelSize(this.startMargin));
             }
 
-            if (this.endMargin >= 0.0F) {
+            if (this.endMargin > 0.0F) {
                 MarginLayoutParamsCompat.setMarginEnd(params, getRealPixelSize(this.endMargin));
             }
 

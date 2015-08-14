@@ -35,6 +35,8 @@ public class ScaleRelativeLayout extends RelativeLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         this.mHelper.adjustChildren(widthMeasureSpec, heightMeasureSpec);
+        this.mHelper.adjustSelf(widthMeasureSpec, heightMeasureSpec);
+        
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if (this.mHelper.handleMeasuredStateTooSmall()) {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -72,6 +74,7 @@ public class ScaleRelativeLayout extends RelativeLayout {
             return this.mPercentLayoutInfo;
         }
 
+        @Override
         protected void setBaseAttributes(TypedArray a, int widthAttr, int heightAttr) {
             ScaleLayoutHelper.fetchWidthAndHeight(this, a, widthAttr, heightAttr);
         }

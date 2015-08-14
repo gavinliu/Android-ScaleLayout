@@ -11,25 +11,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#46b34b"
-        android:text="@string/hello_world"
         app:layout_height="120dp"
         app:layout_marginLeft="12dp"
         app:layout_marginTop="8dp"
         app:layout_scale_by="width"
         app:layout_width="166dp" />
 
-    <TextView
+    <cn.gavinliu.android.lib.scale.ScaleRelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/view"
-        android:background="#46b34b"
-        android:text="@string/hello_world"
-        app:layout_height="120dp"
-        app:layout_marginLeft="4dp"
-        app:layout_marginTop="8dp"
-        app:layout_paddingLeft="12dp"
-        app:layout_paddingTop="12dp"
-        app:layout_scale_by="width"
-        app:layout_width="166dp" />
+        android:layout_below="@id/view"
+        android:background="#46b"
+        app:layout_design_density="@integer/app_design_density"
+        app:layout_design_height="@dimen/app_design_height"
+        app:layout_design_width="@dimen/app_design_width"
+        app:layout_height="300dp"
+        app:layout_marginTop="5dp"
+        app:layout_width="300dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#46b34b"
+            app:layout_height="120dp"
+            app:layout_marginLeft="12dp"
+            app:layout_marginTop="8dp"
+            app:layout_scale_by="width"
+            app:layout_width="166dp" />
+
+    </cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
+
 
 </cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
