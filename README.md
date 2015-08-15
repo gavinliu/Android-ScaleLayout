@@ -2,9 +2,9 @@
 
 一个简单的,方便的多屏适配的Android库
 
-# 本质就是百分比缩放
+## 本质就是百分比缩放
 
-## 和 android-percent-support-lib 的不同
+### 和 android-percent-support-lib 的不同
 
 1. **更科学**  
     ``android-percent-support-lib`` 是父控件和子控件的百分比关系  
@@ -18,13 +18,13 @@
     ``android-percent-support-lib`` 需要把设计尺寸算成百分比  
     ``Android-ScaleLayout`` 直接把设计尺寸填入``layou.xml``即可
 
-## Android有良好的多屏适配系统,为何设计ScaleLayout?
+### Android有良好的多屏适配系统,为何设计ScaleLayout?
 
 
 
-# 如何使用
+## 如何使用
 
-## 基本原理
+### 基本原理
 + 设计属性  
     设计手机的宽高,像素密度,设计尺寸(dp)
 + 设备属性
@@ -41,7 +41,7 @@ float designPixel = designDP * designDensity // dp 转 pixel
 float realPixel = (mScreenWidth * designDensity * getPixelSize()) / (designScreenWidth * mDensity)
 ```
 
-## 属性
+### 属性
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -77,7 +77,7 @@ float realPixel = (mScreenWidth * designDensity * getPixelSize()) / (designScree
 </resources>
 ```
 
-## 使用
+### 使用
 
 ```xml
 <cn.gavinliu.android.lib.scale.ScaleRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -126,15 +126,15 @@ float realPixel = (mScreenWidth * designDensity * getPixelSize()) / (designScree
 </cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
 ```
 
-## 注意事项
+### 注意事项
 
-1. 缩放方式
+1. 建议缩放方式
     上下滑动的界面按**屏幕宽**等比缩放  
     左右滑动的界面按**屏幕高**等比缩放  
-2.
-    ``cn.gavinliu.android.lib.scale.ScaleLayout`` 必须包含 layout_design_*  
+2. 控件须知
+    ``cn.gavinliu.android.lib.scale.Scale*Layout`` 必须包含 layout_design_*  
     ``layout_scale_by`` 默认值为 width
 
-# License
+## License
 
 MIT
