@@ -18,8 +18,10 @@
     ``android-percent-support-lib`` 需要把设计尺寸算成百分比  
     ``Android-ScaleLayout`` 直接把设计尺寸填入``layou.xml``即可
 
-### Android有良好的多屏适配系统,为何设计ScaleLayout?
 
+## How to look?
+
+![screenhot](/screenhot.png)
 
 
 ## 如何使用
@@ -27,7 +29,7 @@
 ### 基本原理
 + 设计属性  
     设计手机的宽高,像素密度,设计尺寸(dp)
-+ 设备属性
++ 设备属性  
     设备手机的宽高,像素密度
 
 ```java
@@ -48,15 +50,18 @@ float realPixel = (mScreenWidth * designDensity * getPixelSize()) / (designScree
 <resources>
     <declare-styleable name="ScaleLayout">
 
+        <!-- 根据宽或者高缩放 -->
         <attr name="layout_scale_by" format="enum">
             <enum name="width" value="0" />
             <enum name="height" value="1" />
         </attr>
 
+        <!-- 设计图的相关属性：必须写在 Scale*Layout 中 -->
         <attr name="layout_design_width" format="dimension" />
         <attr name="layout_design_height" format="dimension" />
         <attr name="layout_design_density" format="integer" />
 
+        <!-- 控件大小间距相关属性 -->
         <attr name="layout_width" format="dimension" />
         <attr name="layout_height" format="dimension" />
 
@@ -128,10 +133,10 @@ float realPixel = (mScreenWidth * designDensity * getPixelSize()) / (designScree
 
 ### 注意事项
 
-1. 建议缩放方式
+1. 建议缩放方式  
     上下滑动的界面按**屏幕宽**等比缩放  
     左右滑动的界面按**屏幕高**等比缩放  
-2. 控件须知
+2. 控件须知  
     ``cn.gavinliu.android.lib.scale.Scale*Layout`` 必须包含 layout_design_*  
     ``layout_scale_by`` 默认值为 width
 

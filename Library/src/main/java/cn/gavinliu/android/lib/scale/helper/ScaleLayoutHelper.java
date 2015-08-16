@@ -16,7 +16,9 @@ import cn.gavinliu.android.lib.scale.R;
  */
 public class ScaleLayoutHelper {
 
+    private static final boolean mDBG = true;
     private static final String TAG = "ScaleLayoutHelper";
+
     private final ViewGroup mHost;
 
     private ScaleLayoutInfo mHostLayoutInfo;
@@ -41,7 +43,6 @@ public class ScaleLayoutHelper {
         for (int N = this.mHost.getChildCount(); i < N; ++i) {
             View view = this.mHost.getChildAt(i);
             ViewGroup.LayoutParams params = view.getLayoutParams();
-            Log.d(TAG, "should adjust " + view + " " + params);
 
             if (params instanceof ScaleLayoutParams) {
                 ScaleLayoutInfo info = ((ScaleLayoutParams) params).getScaleLayoutInfo();
@@ -77,7 +78,6 @@ public class ScaleLayoutHelper {
         for (int N = this.mHost.getChildCount(); i < N; ++i) {
             View view = this.mHost.getChildAt(i);
             ViewGroup.LayoutParams params = view.getLayoutParams();
-            Log.d(TAG, "should restore " + view + " " + params);
 
             if (params instanceof ScaleLayoutParams) {
                 ScaleLayoutInfo info = ((ScaleLayoutParams) params).getScaleLayoutInfo();
@@ -222,7 +222,6 @@ public class ScaleLayoutHelper {
         for (int N = this.mHost.getChildCount(); i < N; ++i) {
             View view = this.mHost.getChildAt(i);
             ViewGroup.LayoutParams params = view.getLayoutParams();
-            Log.d(TAG, "should handle measured state too small " + view + " " + params);
 
             if (params instanceof ScaleLayoutParams) {
                 ScaleLayoutInfo info = ((ScaleLayoutParams) params).getScaleLayoutInfo();
