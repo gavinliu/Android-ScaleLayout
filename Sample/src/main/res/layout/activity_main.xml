@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_design_density="@integer/app_design_density"
-    app:layout_design_height="@dimen/app_design_height"
-    app:layout_design_width="@dimen/app_design_width">
+    app:layout_design_height="@integer/app_design_height"
+    app:layout_design_width="@integer/app_design_width">
 
     <TextView
         android:id="@+id/view"
@@ -23,8 +23,8 @@
         android:layout_below="@id/view"
         android:background="#46b"
         app:layout_design_density="@integer/app_design_density"
-        app:layout_design_height="@dimen/app_design_height"
-        app:layout_design_width="@dimen/app_design_width"
+        app:layout_design_height="@integer/app_design_height"
+        app:layout_design_width="@integer/app_design_width"
         app:layout_height="300dp"
         app:layout_marginTop="5dp"
         app:layout_width="300dp">

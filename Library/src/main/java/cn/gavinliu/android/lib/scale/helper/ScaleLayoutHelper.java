@@ -191,13 +191,13 @@ public class ScaleLayoutHelper {
             info.bottomPadding = value;
         }
 
-        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_design_width, 0);
+        value = array.getInteger(R.styleable.ScaleLayout_layout_design_width, 0);
         if (value != 0) {
             info = info != null ? info : new ScaleLayoutInfo(context);
             info.designWidth = value;
         }
 
-        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_design_height, 0);
+        value = array.getInteger(R.styleable.ScaleLayout_layout_design_height, 0);
         if (value != 0) {
             info = info != null ? info : new ScaleLayoutInfo(context);
             info.designHeight = value;

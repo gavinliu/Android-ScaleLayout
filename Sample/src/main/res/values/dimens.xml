@@ -1,7 +1,7 @@
 <resources>
 
-    <dimen name="app_design_width">1080px</dimen>
-    <dimen name="app_design_height">1920px</dimen>
     <integer name="app_design_density">3</integer>
+    <integer name="app_design_width">1080</integer>
+    <integer name="app_design_height">1920</integer>
 
 </resources>

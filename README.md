@@ -57,12 +57,12 @@ float realPixel = (mScreenWidth * designDensity * getPixelSize()) / (designScree
         </attr>
 
         <!-- 设计图的相关属性：必须写在 Scale*Layout 中 -->
-        <attr name="layout_design_width" format="dimension" />
-        <attr name="layout_design_height" format="dimension" />
-        <attr name="layout_design_density" format="integer" />
+        <attr name="layout_design_width" format="integer" /> <!-- eg：1080 -->
+        <attr name="layout_design_height" format="integer" /> <!-- eg：1920 -->
+        <attr name="layout_design_density" format="integer" /> <!-- eg：3 -->
 
-        <!-- 控件大小间距相关属性 -->
-        <attr name="layout_width" format="dimension" />
+        <!-- 控件大小间距相关属性：下面的单位都应该写 dp -->
+        <attr name="layout_width" format="dimension" /> 
         <attr name="layout_height" format="dimension" />
 
         <attr name="layout_margin" format="dimension" />
