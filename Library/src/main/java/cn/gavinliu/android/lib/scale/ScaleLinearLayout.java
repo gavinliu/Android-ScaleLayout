@@ -1,28 +1,31 @@
 package cn.gavinliu.android.lib.scale;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import cn.gavinliu.android.lib.scale.helper.ScaleLayoutHelper;
 
 /**
- * Created by GavinLiu on 2015-08-10
+ * Created by Gavin on 16-9-20.
  */
-public class ScaleFrameLayout extends FrameLayout {
+public class ScaleLinearLayout extends LinearLayout {
 
     private ScaleLayoutHelper mHelper;
 
-    public ScaleFrameLayout(Context context) {
+    public ScaleLinearLayout(Context context) {
         this(context, null);
     }
 
-    public ScaleFrameLayout(Context context, AttributeSet attrs) {
+    public ScaleLinearLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ScaleFrameLayout(Context context, AttributeSet attrs, int defStyle) {
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public ScaleLinearLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mHelper = ScaleLayoutHelper.create(this, attrs);
     }
@@ -54,7 +57,7 @@ public class ScaleFrameLayout extends FrameLayout {
         this.mHelper.restoreOriginalParams();
     }
 
-    public static class LayoutParams extends FrameLayout.LayoutParams implements ScaleLayoutHelper.ScaleLayoutParams {
+    public static class LayoutParams extends LinearLayout.LayoutParams implements ScaleLayoutHelper.ScaleLayoutParams {
         private ScaleLayoutHelper.ScaleLayoutInfo mPercentLayoutInfo;
 
         public LayoutParams(Context c, AttributeSet attrs) {

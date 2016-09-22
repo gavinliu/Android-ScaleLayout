@@ -1,45 +1,39 @@
-<cn.gavinliu.android.lib.scale.ScaleRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<cn.gavinliu.android.lib.scale.ScaleRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_design_density="@integer/app_design_density"
-    app:layout_design_height="@integer/app_design_height"
-    app:layout_design_width="@integer/app_design_width">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="166dp"
+        android:layout_height="120dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
         android:background="#46b34b"
-        app:layout_height="120dp"
-        app:layout_marginLeft="12dp"
-        app:layout_marginTop="8dp"
-        app:layout_scale_by="width"
-        app:layout_width="166dp" />
+        android:paddingLeft="10dp"
+        android:text="xxxx"
+        app:layout_scale_by="width"/>
 
-    <cn.gavinliu.android.lib.scale.ScaleRelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <cn.gavinliu.android.lib.scale.ScaleFrameLayout
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_below="@id/view"
+        android:layout_marginTop="5dp"
         android:background="#46b"
-        app:layout_design_density="@integer/app_design_density"
-        app:layout_design_height="@integer/app_design_height"
-        app:layout_design_width="@integer/app_design_width"
-        app:layout_height="300dp"
-        app:layout_marginTop="5dp"
-        app:layout_width="300dp">
+        android:paddingTop="8dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="166dp"
+            android:layout_height="120dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
             android:background="#46b34b"
-            app:layout_height="120dp"
-            app:layout_marginLeft="12dp"
-            app:layout_marginTop="8dp"
-            app:layout_scale_by="width"
-            app:layout_width="166dp" />
+            app:layout_scale_by="width"/>
 
-    </cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
+    </cn.gavinliu.android.lib.scale.ScaleFrameLayout>
 
 
 </cn.gavinliu.android.lib.scale.ScaleRelativeLayout>

@@ -3,29 +3,30 @@
     <declare-styleable name="ScaleLayout">
 
         <attr name="layout_scale_by" format="enum">
-            <enum name="width" value="0" />
-            <enum name="height" value="1" />
+            <enum name="width" value="0"/>
+            <enum name="height" value="1"/>
         </attr>
 
-        <attr name="layout_design_width" format="integer" />
-        <attr name="layout_design_height" format="integer" />
-        <attr name="layout_design_density" format="integer" />
+        <attr name="android:layout_width"/>
+        <attr name="android:layout_height"/>
 
-        <attr name="layout_width" format="dimension" />
-        <attr name="layout_height" format="dimension" />
+        <attr name="android:layout_margin"/>
+        <attr name="android:layout_marginLeft"/>
+        <attr name="android:layout_marginTop"/>
+        <attr name="android:layout_marginRight"/>
+        <attr name="android:layout_marginBottom"/>
+        <attr name="android:layout_marginStart"/>
+        <attr name="android:layout_marginEnd"/>
 
-        <attr name="layout_margin" format="dimension" />
-        <attr name="layout_marginLeft" format="dimension" />
-        <attr name="layout_marginTop" format="dimension" />
-        <attr name="layout_marginRight" format="dimension" />
-        <attr name="layout_marginBottom" format="dimension" />
-        <attr name="layout_marginStart" format="dimension" />
-        <attr name="layout_marginEnd" format="dimension" />
+        <attr name="android:padding"/>
+        <attr name="android:paddingLeft"/>
+        <attr name="android:paddingTop"/>
+        <attr name="android:paddingRight"/>
+        <attr name="android:paddingBottom"/>
+        <attr name="android:paddingStart"/>
+        <attr name="android:paddingEnd"/>
 
-        <attr name="layout_paddingLeft" format="dimension" />
-        <attr name="layout_paddingTop" format="dimension" />
-        <attr name="layout_paddingRight" format="dimension" />
-        <attr name="layout_paddingBottom" format="dimension" />
+
     </declare-styleable>
 
 </resources>

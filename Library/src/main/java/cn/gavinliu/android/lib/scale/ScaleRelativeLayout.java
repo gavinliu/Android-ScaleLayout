@@ -28,15 +28,20 @@ public class ScaleRelativeLayout extends RelativeLayout {
     }
 
     @Override
-    public ScaleRelativeLayout.LayoutParams generateLayoutParams(AttributeSet attrs) {
-        return new ScaleRelativeLayout.LayoutParams(this.getContext(), attrs);
+    protected LayoutParams generateDefaultLayoutParams() {
+        return new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+    }
+
+    @Override
+    public LayoutParams generateLayoutParams(AttributeSet attrs) {
+        return new LayoutParams(this.getContext(), attrs);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        this.mHelper.adjustHost(widthMeasureSpec, heightMeasureSpec);
         this.mHelper.adjustChildren(widthMeasureSpec, heightMeasureSpec);
-        this.mHelper.adjustSelf(widthMeasureSpec, heightMeasureSpec);
-        
+
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if (this.mHelper.handleMeasuredStateTooSmall()) {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -79,5 +84,12 @@ public class ScaleRelativeLayout extends RelativeLayout {
             ScaleLayoutHelper.fetchWidthAndHeight(this, a, widthAttr, heightAttr);
         }
 
+        @Override
+        public void setMargins(int left, int top, int right, int bottom) {
+            super.setMargins(left, top, right, bottom);
+            if (mPercentLayoutInfo != null) {
+                mPercentLayoutInfo.setMargins(left, top, right, bottom);
+            }
+        }
     }
 }

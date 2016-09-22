@@ -10,18 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import cn.gavinliu.android.lib.scale.R;
+import cn.gavinliu.android.lib.scale.config.ScaleConfig;
 
 /**
  * Created by GavinLiu on 2015-08-10
  */
 public class ScaleLayoutHelper {
 
-    private static final boolean mDBG = true;
+    private static final boolean mDebug = true;
     private static final String TAG = "ScaleLayoutHelper";
 
     private final ViewGroup mHost;
-
-    private ScaleLayoutInfo mHostLayoutInfo;
+    private final ScaleLayoutInfo mHostLayoutInfo;
 
     public interface ScaleLayoutParams {
         ScaleLayoutInfo getScaleLayoutInfo();
@@ -37,8 +37,6 @@ public class ScaleLayoutHelper {
     }
 
     public void adjustChildren(int widthMeasureSpec, int heightMeasureSpec) {
-        Log.d(TAG, "adjustChildren: " + this.mHost + " widthMeasureSpec: " + View.MeasureSpec.toString(widthMeasureSpec) + " heightMeasureSpec: " + View.MeasureSpec.toString(heightMeasureSpec));
-
         int i = 0;
         for (int N = this.mHost.getChildCount(); i < N; ++i) {
             View view = this.mHost.getChildAt(i);
@@ -46,29 +44,28 @@ public class ScaleLayoutHelper {
 
             if (params instanceof ScaleLayoutParams) {
                 ScaleLayoutInfo info = ((ScaleLayoutParams) params).getScaleLayoutInfo();
-                Log.d(TAG, "using " + info);
+                if (mDebug) {
+                    Log.d(TAG, "adjustChildren using " + info + " " + view);
+                }
                 if (info != null && mHostLayoutInfo != null) {
-                    info.setDesignSize(mHostLayoutInfo.designWidth, mHostLayoutInfo.designHeight, mHostLayoutInfo.designDensity);
                     if (params instanceof ViewGroup.MarginLayoutParams) {
-                        info.fillMarginLayoutParams((ViewGroup.MarginLayoutParams) params);
+                        info.fillMarginLayoutParams(view, (ViewGroup.MarginLayoutParams) params);
                     } else {
-                        info.fillLayoutParams(params);
+                        info.fillLayoutParams(view, params);
                     }
-                    view.setPadding(info.leftPadding, info.topPadding, info.rightPadding, info.bottomPadding);
                 }
             }
         }
     }
 
-    public void adjustSelf(int widthMeasureSpec, int heightMeasureSpec) {
+    public void adjustHost(int widthMeasureSpec, int heightMeasureSpec) {
         if (mHostLayoutInfo != null) {
             ViewGroup.LayoutParams params = mHost.getLayoutParams();
             if (params instanceof ViewGroup.MarginLayoutParams) {
-                mHostLayoutInfo.fillMarginLayoutParams((ViewGroup.MarginLayoutParams) params);
+                mHostLayoutInfo.fillMarginLayoutParams(mHost, (ViewGroup.MarginLayoutParams) params);
             } else {
-                mHostLayoutInfo.fillLayoutParams(params);
+                mHostLayoutInfo.fillLayoutParams(mHost, params);
             }
-            mHost.setPadding(mHostLayoutInfo.leftPadding, mHostLayoutInfo.topPadding, mHostLayoutInfo.rightPadding, mHostLayoutInfo.bottomPadding);
         }
     }
 
@@ -81,7 +78,9 @@ public class ScaleLayoutHelper {
 
             if (params instanceof ScaleLayoutParams) {
                 ScaleLayoutInfo info = ((ScaleLayoutParams) params).getScaleLayoutInfo();
-                Log.d(TAG, "using " + info);
+                if (mDebug) {
+                    Log.d(TAG, "restoreOriginalParams using " + info);
+                }
 
                 if (info != null) {
                     if (params instanceof ViewGroup.MarginLayoutParams) {
@@ -101,117 +100,102 @@ public class ScaleLayoutHelper {
     }
 
     public static ScaleLayoutInfo getScaleLayoutInfo(Context context, AttributeSet attrs) {
-        ScaleLayoutInfo info = null;
+        ScaleLayoutInfo info = new ScaleLayoutInfo(context);
+
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ScaleLayout);
 
-        int value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_width, 0);
+        int value = array.getInt(R.styleable.ScaleLayout_layout_scale_by, 0);
         if (value != 0) {
-            info = new ScaleLayoutInfo(context);
-            info.width = value;
-        }
-
-        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_height, 0);
-        if (value != 0) {
-            info = info != null ? info : new ScaleLayoutInfo(context);
-            info.height = value;
-        }
-
-        value = array.getInt(R.styleable.ScaleLayout_layout_scale_by, 0);
-        if (value != 0) {
-            info = info != null ? info : new ScaleLayoutInfo(context);
             info.scaleBy = value;
         }
 
-        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_margin, 0);
+        try {
+            value = array.getDimensionPixelSize(R.styleable.ScaleLayout_android_layout_width, 0);
+            if (value != 0) {
+                info.width = value;
+            }
+        } catch (Exception e) {
+        }
+
+        try {
+            value = array.getDimensionPixelSize(R.styleable.ScaleLayout_android_layout_height, 0);
+            if (value != 0) {
+                info.height = value;
+            }
+        } catch (Exception e) {
+        }
+
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_android_layout_margin, 0);
         if (value != 0) {
-            info = info != null ? info : new ScaleLayoutInfo(context);
             info.leftMargin = value;
             info.topMargin = value;
             info.rightMargin = value;
             info.bottomMargin = value;
         }
 
-        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_marginLeft, 0);
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_android_layout_marginLeft, 0);
         if (value != 0) {
-            info = info != null ? info : new ScaleLayoutInfo(context);
             info.leftMargin = value;
         }
 
-        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_marginTop, 0);
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_android_layout_marginTop, 0);
         if (value != 0) {
-            info = info != null ? info : new ScaleLayoutInfo(context);
             info.topMargin = value;
         }
 
-        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_marginRight, 0);
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_android_layout_marginRight, 0);
         if (value != 0) {
-            info = info != null ? info : new ScaleLayoutInfo(context);
             info.rightMargin = value;
         }
 
-        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_marginBottom, 0);
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_android_layout_marginBottom, 0);
         if (value != 0) {
-            info = info != null ? info : new ScaleLayoutInfo(context);
             info.bottomMargin = value;
         }
 
-        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_marginStart, 0);
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_android_layout_marginStart, 0);
         if (value != 0) {
-            info = info != null ? info : new ScaleLayoutInfo(context);
             info.startMargin = value;
         }
 
-        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_marginEnd, 0);
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_android_layout_marginEnd, 0);
         if (value != 0) {
-            info = info != null ? info : new ScaleLayoutInfo(context);
             info.endMargin = value;
         }
 
-        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_paddingLeft, 0);
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_android_padding, 0);
         if (value != 0) {
-            info = info != null ? info : new ScaleLayoutInfo(context);
             info.leftPadding = value;
-        }
-
-        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_paddingTop, 0);
-        if (value != 0) {
-            info = info != null ? info : new ScaleLayoutInfo(context);
             info.topPadding = value;
-        }
-
-        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_paddingRight, 0);
-        if (value != 0) {
-            info = info != null ? info : new ScaleLayoutInfo(context);
             info.rightPadding = value;
-        }
-
-        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_layout_paddingBottom, 0);
-        if (value != 0) {
-            info = info != null ? info : new ScaleLayoutInfo(context);
             info.bottomPadding = value;
         }
 
-        value = array.getInteger(R.styleable.ScaleLayout_layout_design_width, 0);
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_android_paddingLeft, 0);
         if (value != 0) {
-            info = info != null ? info : new ScaleLayoutInfo(context);
-            info.designWidth = value;
+            info.leftPadding = value;
         }
 
-        value = array.getInteger(R.styleable.ScaleLayout_layout_design_height, 0);
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_android_paddingTop, 0);
         if (value != 0) {
-            info = info != null ? info : new ScaleLayoutInfo(context);
-            info.designHeight = value;
+            info.topPadding = value;
         }
 
-        value = array.getInteger(R.styleable.ScaleLayout_layout_design_density, 0);
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_android_paddingRight, 0);
         if (value != 0) {
-            info = info != null ? info : new ScaleLayoutInfo(context);
-            info.designDensity = value;
+            info.rightPadding = value;
+        }
+
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_android_paddingBottom, 0);
+        if (value != 0) {
+            info.bottomPadding = value;
         }
 
         array.recycle();
 
-        Log.d(TAG, "constructed: " + info);
+        if (mDebug) {
+            Log.d(TAG, "constructed: " + info);
+        }
         return info;
     }
 
@@ -239,7 +223,9 @@ public class ScaleLayoutHelper {
             }
         }
 
-        Log.d(TAG, "should trigger second measure pass: " + needsSecondMeasure);
+        if (mDebug) {
+            Log.d(TAG, "should trigger second measure pass: " + needsSecondMeasure);
+        }
 
         return needsSecondMeasure;
     }
@@ -255,27 +241,25 @@ public class ScaleLayoutHelper {
     }
 
     public static class ScaleLayoutInfo {
-        private float designWidth;
-        private float designHeight;
-        private float designDensity;
+        private int designWidth;
+        private int designHeight;
 
-        private float density;
-        private float screenW;
-        private float screenH;
+        private int screenW;
+        private int screenH;
 
-        public float width = 0;
-        public float height = 0;
+        public int width = 0;
+        public int height = 0;
 
         private int scaleBy = ScaleByWidth;
         private static final int ScaleByWidth = 0;
         private static final int ScaleByHeight = 1;
 
-        private float leftMargin;
-        private float topMargin;
-        private float rightMargin;
-        private float bottomMargin;
-        private float startMargin;
-        private float endMargin;
+        private int leftMargin;
+        private int topMargin;
+        private int rightMargin;
+        private int bottomMargin;
+        private int startMargin;
+        private int endMargin;
 
         private int leftPadding;
         private int topPadding;
@@ -285,42 +269,48 @@ public class ScaleLayoutHelper {
         final ViewGroup.MarginLayoutParams mPreservedParams = new ViewGroup.MarginLayoutParams(0, 0);
 
         public ScaleLayoutInfo(Context ctx) {
-            density = ctx.getResources().getDisplayMetrics().density;
+            designWidth = ScaleConfig.getInstance().getDesignWidth();
+            designHeight = ScaleConfig.getInstance().getDesignHeight();
+
             screenW = ctx.getResources().getDisplayMetrics().widthPixels;
             screenH = ctx.getResources().getDisplayMetrics().heightPixels;
         }
 
-        public void fillLayoutParams(ViewGroup.LayoutParams params) {
+        public void fillLayoutParams(View view, ViewGroup.LayoutParams params) {
             this.mPreservedParams.width = params.width;
             this.mPreservedParams.height = params.height;
 
-            if (this.width > 0.0F) {
+            if (this.width > 0.0) {
                 params.width = getRealPixelSize(this.width);
             }
 
-            if (this.height > 0.0F) {
+            if (this.height > 0.0) {
                 params.height = getRealPixelSize(this.height);
             }
 
-            if (this.leftPadding > 0.0F) {
-                this.leftPadding = getRealPixelSize(this.leftPadding);
+            int paddingL = 0, paddingT = 0, paddingR = 0, paddingB = 0;
+
+            if (this.leftPadding > 0.0) {
+                paddingL = getRealPixelSize(this.leftPadding);
             }
 
-            if (this.topPadding > 0.0F) {
-                this.topPadding = getRealPixelSize(this.topPadding);
+            if (this.topPadding > 0.0) {
+                paddingT = getRealPixelSize(this.topPadding);
             }
 
-            if (this.rightPadding > 0.0F) {
-                this.rightPadding = getRealPixelSize(this.rightPadding);
+            if (this.rightPadding > 0.0) {
+                paddingR = getRealPixelSize(this.rightPadding);
             }
 
-            if (this.bottomPadding > 0.0F) {
-                this.bottomPadding = getRealPixelSize(this.bottomPadding);
+            if (this.bottomPadding > 0.0) {
+                paddingB = getRealPixelSize(this.bottomPadding);
             }
+
+            view.setPadding(paddingL, paddingT, paddingR, paddingB);
         }
 
-        public void fillMarginLayoutParams(ViewGroup.MarginLayoutParams params) {
-            this.fillLayoutParams(params);
+        public void fillMarginLayoutParams(View view, ViewGroup.MarginLayoutParams params) {
+            this.fillLayoutParams(view, params);
             this.mPreservedParams.leftMargin = params.leftMargin;
             this.mPreservedParams.topMargin = params.topMargin;
             this.mPreservedParams.rightMargin = params.rightMargin;
@@ -369,8 +359,15 @@ public class ScaleLayoutHelper {
             params.height = this.mPreservedParams.height;
         }
 
-        private int getRealPixelSize(float pix) {
-            float screen, design;
+        public void setMargins(int left, int top, int right, int bottom) {
+            leftPadding = left;
+            topPadding = top;
+            rightPadding = right;
+            bottomPadding = bottom;
+        }
+
+        private int getRealPixelSize(int pix) {
+            int screen, design;
             switch (scaleBy) {
                 case ScaleByHeight:
                     screen = screenH;
@@ -384,22 +381,19 @@ public class ScaleLayoutHelper {
             return getRealPixelSize(pix, screen, design);
         }
 
-        private int getRealPixelSize(float pix, float screen, float designPixel) {
-            float newPix = (screen * designDensity * pix) / (designPixel * density);
+        private int getRealPixelSize(int pix, int screen, int design) {
             int result;
-            if (newPix > 1) {
-                result = (int) Math.rint((double) newPix);
-            } else {
-                result = (int) Math.ceil((double) newPix);
-            }
-            Log.i(TAG, "pix:" + pix + ",newPix:" + newPix + ",result:" + result);
-            return result;
-        }
 
-        public void setDesignSize(float width, float height, float density) {
-            designWidth = width;
-            designHeight = height;
-            designDensity = density;
+            int res = pix * screen;
+
+            if (res % design == 0) {
+                result = res / design;
+            } else {
+                result = res / design + 1;
+            }
+
+            Log.i(TAG, "pix:" + pix + ",result:" + result);
+            return result;
         }
     }
 

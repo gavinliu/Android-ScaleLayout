@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
 
     defaultConfig {
         applicationId "cn.gavinliu.android_scalelayout"
-        minSdkVersion 7
-        targetSdkVersion 22
+        minSdkVersion 9
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
     }
@@ -21,5 +21,6 @@ android {
 
 dependencies {
     compile project(':Library')
-    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:percent:24.2.0'
 }
