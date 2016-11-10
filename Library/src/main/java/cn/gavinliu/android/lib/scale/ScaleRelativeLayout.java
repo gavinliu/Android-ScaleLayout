@@ -43,15 +43,15 @@ public class ScaleRelativeLayout extends RelativeLayout {
         this.mHelper.adjustChildren(widthMeasureSpec, heightMeasureSpec);
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if (this.mHelper.handleMeasuredStateTooSmall()) {
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        }
+//        if (this.mHelper.handleMeasuredStateTooSmall()) {
+//            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+//        }
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        this.mHelper.restoreOriginalParams();
+//        this.mHelper.restoreOriginalParams();
     }
 
     public static class LayoutParams extends android.widget.RelativeLayout.LayoutParams implements ScaleLayoutHelper.ScaleLayoutParams {

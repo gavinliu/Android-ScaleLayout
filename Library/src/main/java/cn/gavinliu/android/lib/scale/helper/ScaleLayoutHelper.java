@@ -378,10 +378,10 @@ public class ScaleLayoutHelper {
                     design = designWidth;
                     break;
             }
-            return getRealPixelSize(pix, screen, design);
+            return getRealPixelSizeByDip(pix, screen, design);
         }
 
-        private int getRealPixelSize(int pix, int screen, int design) {
+        private int getRealPixelSizeByPix(int pix, int screen, int design) {
             int result;
 
             int res = pix * screen;
@@ -393,6 +393,21 @@ public class ScaleLayoutHelper {
             }
 
             Log.i(TAG, "pix:" + pix + ",result:" + result);
+            return result;
+        }
+
+        private int getRealPixelSizeByDip(int pix, int screen, int design) {
+            float density = ScaleConfig.getInstance().getScreenDensity();
+            float designDensity = ScaleConfig.getInstance().getDesignDensity();
+
+            float newpix = (screen * designDensity * pix) / (design * density);
+            int result;
+            if (newpix > 1) {
+                result = (int) Math.rint((double) newpix);
+            } else {
+                result = (int) Math.ceil((double) newpix);
+            }
+            Log.i(TAG, "pix:" + pix + ",newPix:" + newpix + ",result:" + result);
             return result;
         }
     }
