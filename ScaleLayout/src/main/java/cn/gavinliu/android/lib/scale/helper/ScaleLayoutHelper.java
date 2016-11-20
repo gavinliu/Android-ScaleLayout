@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import cn.gavinliu.android.lib.scale.BuildConfig;
 import cn.gavinliu.android.lib.scale.R;
 import cn.gavinliu.android.lib.scale.config.ScaleConfig;
 
@@ -17,7 +18,6 @@ import cn.gavinliu.android.lib.scale.config.ScaleConfig;
  */
 public class ScaleLayoutHelper {
 
-    private static final boolean mDebug = true;
     private static final String TAG = "ScaleLayoutHelper";
 
     private final ViewGroup mHost;
@@ -44,7 +44,7 @@ public class ScaleLayoutHelper {
 
             if (params instanceof ScaleLayoutParams) {
                 ScaleLayoutInfo info = ((ScaleLayoutParams) params).getScaleLayoutInfo();
-                if (mDebug) {
+                if (ScaleConfig.getInstance().isDebug()) {
                     Log.d(TAG, "adjustChildren using " + info + " " + view);
                 }
                 if (info != null && mHostLayoutInfo != null) {
@@ -78,7 +78,7 @@ public class ScaleLayoutHelper {
 
             if (params instanceof ScaleLayoutParams) {
                 ScaleLayoutInfo info = ((ScaleLayoutParams) params).getScaleLayoutInfo();
-                if (mDebug) {
+                if (ScaleConfig.getInstance().isDebug()) {
                     Log.d(TAG, "restoreOriginalParams using " + info);
                 }
 
@@ -193,7 +193,7 @@ public class ScaleLayoutHelper {
 
         array.recycle();
 
-        if (mDebug) {
+        if (ScaleConfig.getInstance().isDebug()) {
             Log.d(TAG, "constructed: " + info);
         }
         return info;
@@ -223,7 +223,7 @@ public class ScaleLayoutHelper {
             }
         }
 
-        if (mDebug) {
+        if (ScaleConfig.getInstance().isDebug()) {
             Log.d(TAG, "should trigger second measure pass: " + needsSecondMeasure);
         }
 
@@ -378,7 +378,12 @@ public class ScaleLayoutHelper {
                     design = designWidth;
                     break;
             }
-            return getRealPixelSizeByDip(pix, screen, design);
+
+            if (ScaleConfig.getInstance().isDimensUnitByDp()) {
+                return getRealPixelSizeByDp(pix, screen, design);
+            } else {
+                return getRealPixelSizeByPix(pix, screen, design);
+            }
         }
 
         private int getRealPixelSizeByPix(int pix, int screen, int design) {
@@ -392,22 +397,25 @@ public class ScaleLayoutHelper {
                 result = res / design + 1;
             }
 
-            Log.i(TAG, "pix:" + pix + ",result:" + result);
+            if (ScaleConfig.getInstance().isDebug())
+                Log.i(TAG, "pix:" + pix + ",result:" + result);
             return result;
         }
 
-        private int getRealPixelSizeByDip(int pix, int screen, int design) {
+        private int getRealPixelSizeByDp(int pix, int screen, int design) {
             float density = ScaleConfig.getInstance().getScreenDensity();
             float designDensity = ScaleConfig.getInstance().getDesignDensity();
 
-            float newpix = (screen * designDensity * pix) / (design * density);
+            float newPix = (screen * designDensity * pix) / (design * density);
             int result;
-            if (newpix > 1) {
-                result = (int) Math.rint((double) newpix);
+            if (newPix > 1) {
+                result = (int) Math.rint((double) newPix);
             } else {
-                result = (int) Math.ceil((double) newpix);
+                result = (int) Math.ceil((double) newPix);
             }
-            Log.i(TAG, "pix:" + pix + ",newPix:" + newpix + ",result:" + result);
+
+            if (ScaleConfig.getInstance().isDebug())
+                Log.i(TAG, "pix:" + pix + ",newPix:" + newPix + ",result:" + result);
             return result;
         }
     }

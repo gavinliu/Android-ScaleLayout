@@ -20,7 +20,8 @@ android {
 }
 
 dependencies {
-    compile project(':Library')
+    compile project(':ScaleLayout')
+//    compile 'cn.gavinliu.android.lib:ScaleLayout:1.0.1'
+
     compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.android.support:percent:24.2.0'
 }

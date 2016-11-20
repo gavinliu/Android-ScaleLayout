@@ -1,37 +1,22 @@
-<RelativeLayout
+<cn.gavinliu.android.lib.scale.ScaleLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/view"
-        android:layout_width="166dp"
-        android:layout_height="120dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="8dp"
-        android:background="#46b34b"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:text="xxxx"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:onClick="demo"
+        android:text="Demo"/>
 
-    <FrameLayout
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_below="@id/view"
-        android:layout_marginTop="8dp"
-        android:background="#46b"
-        android:paddingTop="8dp">
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:onClick="demoList"
+        android:text="Demo List"/>
 
-        <TextView
-            android:layout_width="166dp"
-            android:layout_height="120dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="8dp"
-            android:background="#46b34b"/>
-
-    </FrameLayout>
-
-
-</RelativeLayout>
+</cn.gavinliu.android.lib.scale.ScaleLinearLayout>

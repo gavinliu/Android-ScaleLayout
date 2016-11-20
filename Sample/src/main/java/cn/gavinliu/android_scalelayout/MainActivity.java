@@ -1,9 +1,8 @@
 package cn.gavinliu.android_scalelayout;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,16 +13,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    @Override
-    public View onCreateView(String name, Context context, AttributeSet attrs) {
-//        switch (name) {
-//            case "FrameLayout":
-//                return new ScaleFrameLayout(context, attrs);
-//            case "LinearLayout":
-//                return new ScaleLinearLayout(context, attrs);
-//            case "RelativeLayout":
-//                return new ScaleRelativeLayout(context, attrs);
-//        }
-        return super.onCreateView(name, context, attrs);
+    public void demo(View view) {
+        Intent intent = new Intent(this, DemoActivity.class);
+        startActivity(intent);
     }
+
+    public void demoList(View view) {
+        Intent intent = new Intent(this, DemoListActivity.class);
+        startActivity(intent);
+    }
+
 }
