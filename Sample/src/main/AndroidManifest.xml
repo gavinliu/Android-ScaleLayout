@@ -18,6 +18,15 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".DemoActivity"
+            android:label="Demo"/>
+
+        <activity
+            android:name=".DemoListActivity"
+            android:label="Demo List"/>
+
     </application>
 
 </manifest>

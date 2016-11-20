@@ -13,6 +13,7 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ScaleConfig.create(this, 1080, 1920, 3);
+        ScaleConfig.create(this, 1080, 1920, 3, ScaleConfig.DIMENS_UNIT_DP);
+        ScaleConfig.getInstance().setDebug(true);
     }
 }

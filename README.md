@@ -24,121 +24,87 @@
 ![screenhot](/screenhot.png)
 
 
-## 如何使用
+## 基本原理
 
-### 基本原理
 + 设计属性  
-    设计手机的宽高,像素密度,设计尺寸(dp)
-+ 设备属性  
+    设计手机的宽高,像素密度,设计尺寸
++ 设备属性
     设备手机的宽高,像素密度
 
 ```java
 float realPixel = percent * designPixel
+```
+
+### Pix 模式
+
+```java
+float realPixel = percent * designPixel
+
+float percent = mScreenWidth / designScreenWidth
+
+float designPixel = res.getDimensionPixelSize()
+```
+```java
+float realPixel = mScreenWidth * res.getDimensionPixelSize() / designScreenWidth
+```
+
+### DP 模式
+```java
+float realPixel = percent * designPixel
 
 float percent = mScreenWidth / designScreenWidth // 屏幕比
-float designDP = getPixelSize() / mDensity // DesignDP是写入在xml文件中的，需要通过 getDimensionPixelSize() 还原出来
 float designPixel = designDP * designDensity // dp 转 pixel
+
+float designDP = res.getDimensionPixelSize() / mDensity // DesignDP是写入在xml文件中的，需要通过 pix/density 还原出来
 ```
 ```java
 float realPixel = (mScreenWidth * designDensity * getPixelSize()) / (designScreenWidth * mDensity)
 ```
 
-### 属性
+## 如何使用
+
+### 支持的属性
 
 ```xml
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="ScaleLayout">
+<attr name="android:layout_width"/>
+<attr name="android:layout_height"/>
 
-        <!-- 根据宽或者高缩放 -->
-        <attr name="layout_scale_by" format="enum">
-            <enum name="width" value="0" />
-            <enum name="height" value="1" />
-        </attr>
+<attr name="android:layout_margin"/>
+<attr name="android:layout_marginLeft"/>
+<attr name="android:layout_marginTop"/>
+<attr name="android:layout_marginRight"/>
+<attr name="android:layout_marginBottom"/>
+<attr name="android:layout_marginStart"/>
+<attr name="android:layout_marginEnd"/>
 
-        <!-- 设计图的相关属性：必须写在 Scale*Layout 中 -->
-        <attr name="layout_design_width" format="integer" /> <!-- eg：1080 -->
-        <attr name="layout_design_height" format="integer" /> <!-- eg：1920 -->
-        <attr name="layout_design_density" format="integer" /> <!-- eg：3 -->
-
-        <!-- 控件大小间距相关属性：下面的单位都应该写 dp -->
-        <attr name="layout_width" format="dimension" /> 
-        <attr name="layout_height" format="dimension" />
-
-        <attr name="layout_margin" format="dimension" />
-        <attr name="layout_marginLeft" format="dimension" />
-        <attr name="layout_marginTop" format="dimension" />
-        <attr name="layout_marginRight" format="dimension" />
-        <attr name="layout_marginBottom" format="dimension" />
-        <attr name="layout_marginStart" format="dimension" />
-        <attr name="layout_marginEnd" format="dimension" />
-
-        <attr name="layout_paddingLeft" format="dimension" />
-        <attr name="layout_paddingTop" format="dimension" />
-        <attr name="layout_paddingRight" format="dimension" />
-        <attr name="layout_paddingBottom" format="dimension" />
-    </declare-styleable>
-
-</resources>
+<attr name="android:padding"/>
+<attr name="android:paddingLeft"/>
+<attr name="android:paddingTop"/>
+<attr name="android:paddingRight"/>
+<attr name="android:paddingBottom"/>
+<attr name="android:paddingStart"/>
+<attr name="android:paddingEnd"/>
 ```
 
-### 使用
+### 初始化
 
-```xml
-<cn.gavinliu.android.lib.scale.ScaleRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_design_density="@integer/app_design_density"
-    app:layout_design_height="@dimen/app_design_height"
-    app:layout_design_width="@dimen/app_design_width">
-
-    <TextView
-        android:id="@+id/view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#46b34b"
-        app:layout_height="120dp"
-        app:layout_marginLeft="12dp"
-        app:layout_marginTop="8dp"
-        app:layout_scale_by="width"
-        app:layout_width="166dp" />
-
-    <cn.gavinliu.android.lib.scale.ScaleRelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view"
-        android:background="#46b"
-        app:layout_design_density="@integer/app_design_density"
-        app:layout_design_height="@dimen/app_design_height"
-        app:layout_design_width="@dimen/app_design_width"
-        app:layout_height="300dp"
-        app:layout_marginTop="5dp"
-        app:layout_width="300dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#46b34b"
-            app:layout_height="120dp"
-            app:layout_marginLeft="12dp"
-            app:layout_marginTop="8dp"
-            app:layout_scale_by="width"
-            app:layout_width="166dp" />
-
-    </cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
-
-</cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
+```java
+ScaleConfig.create(this,
+    1080, // 设计宽
+    1920, // 设计高
+    3,    // 设计像素密度
+    ScaleConfig.DIMENS_UNIT_DP); // 填入的是 dp or pix
 ```
+
+### 接入
+
+只需要把 FrameLayout，LinearLayout，RelativeLayout 换成 ScaleFrameLayout，ScaleLinearLayout，ScaleRelativeLayout 即可。
 
 ### 注意事项
 
-1. 建议缩放方式  
+1. 建议缩放方式
     上下滑动的界面按**屏幕宽**等比缩放  
-    左右滑动的界面按**屏幕高**等比缩放  
-2. 控件须知  
-    ``cn.gavinliu.android.lib.scale.Scale*Layout`` 必须包含 layout_design_*  
-    ``layout_scale_by`` 默认值为 width
+    左右滑动的界面按**屏幕高**等比缩放
 
 ## License
 

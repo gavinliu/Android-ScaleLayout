@@ -15,11 +15,18 @@ public class ScaleConfig {
     private int mScreenHeight;
     private float mScreenDensity;
 
+    private int mDimensionUnit;
+
+    public static final int DIMENS_UNIT_DP = 0;
+    public static final int DIMENS_UNIT_PIX = 1;
+
+    private boolean mDebug;
+
     private static ScaleConfig mInstance;
 
-    public static ScaleConfig create(Context ctx, int designWidth, int designHeight, int designDensity) {
+    public static ScaleConfig create(Context ctx, int designWidth, int designHeight, int designDensity, int dimensionUnit) {
         if (mInstance == null) {
-            mInstance = new ScaleConfig(ctx, designWidth, designHeight, designDensity);
+            mInstance = new ScaleConfig(ctx, designWidth, designHeight, designDensity, dimensionUnit);
         }
 
         return mInstance;
@@ -42,11 +49,24 @@ public class ScaleConfig {
         mScreenDensity = density;
     }
 
-    private ScaleConfig(Context ctx, int designWidth, int designHeight, int designDensity) {
+    private ScaleConfig(Context ctx, int designWidth, int designHeight, int designDensity, int dimensionUnit) {
         this(ctx);
         mDesignWidth = designWidth;
         mDesignHeight = designHeight;
         mDesignDensity = designDensity;
+        mDimensionUnit = dimensionUnit;
+    }
+
+    public boolean isDebug() {
+        return mDebug;
+    }
+
+    public void setDebug(boolean debug) {
+        mDebug = debug;
+    }
+
+    public boolean isDimensUnitByDp() {
+        return mDimensionUnit == DIMENS_UNIT_DP;
     }
 
     public int getDesignWidth() {
