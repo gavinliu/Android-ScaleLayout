@@ -1,6 +1,5 @@
-<cn.gavinliu.android.lib.scale.ScaleRelativeLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,14 +13,14 @@
         android:layout_marginTop="8dp"
         android:background="#46b34b"
         android:paddingLeft="10dp"
-        android:text="xxxx"
-        app:layout_scale_by="width"/>
+        android:paddingTop="10dp"
+        android:text="xxxx"/>
 
-    <cn.gavinliu.android.lib.scale.ScaleFrameLayout
+    <FrameLayout
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_below="@id/view"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:background="#46b"
         android:paddingTop="8dp">
 
@@ -30,10 +29,9 @@
             android:layout_height="120dp"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="8dp"
-            android:background="#46b34b"
-            app:layout_scale_by="width"/>
+            android:background="#46b34b"/>
 
-    </cn.gavinliu.android.lib.scale.ScaleFrameLayout>
+    </FrameLayout>
 
 
-</cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
+</RelativeLayout>

@@ -1,52 +1,52 @@
 package cn.gavinliu.android.lib.scale.config;
 
 import android.content.Context;
-import android.content.res.Configuration;
 
 /**
  * Created by Gavin on 16-9-20.
  */
 public class ScaleConfig {
 
-    private int mDesignWidth = 1080;
-    private int mDesignHeight = 1920;
+    private int mDesignWidth;
+    private int mDesignHeight;
+    private float mDesignDensity;
 
     private int mScreenWidth;
     private int mScreenHeight;
-
-    private int mScreenWidthLand;
-    private int mScreenHeightLand;
+    private float mScreenDensity;
 
     private static ScaleConfig mInstance;
 
-    public static void create(Context ctx) {
+    public static ScaleConfig create(Context ctx, int designWidth, int designHeight, int designDensity) {
         if (mInstance == null) {
-            mInstance = new ScaleConfig(ctx);
+            mInstance = new ScaleConfig(ctx, designWidth, designHeight, designDensity);
         }
+
+        return mInstance;
     }
 
     public static ScaleConfig getInstance() {
+        if (mInstance == null)
+            throw new IllegalArgumentException("You must call ScaleConfig.create first");
+
         return mInstance;
     }
 
     private ScaleConfig(Context ctx) {
         final int width = ctx.getResources().getDisplayMetrics().widthPixels;
         final int height = ctx.getResources().getDisplayMetrics().heightPixels;
+        final float density = ctx.getResources().getDisplayMetrics().density;
 
-        if (ctx.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            mScreenWidth = width;
-            mScreenHeight = height;
+        mScreenWidth = width;
+        mScreenHeight = height;
+        mScreenDensity = density;
+    }
 
-            mScreenWidthLand = height;
-            mScreenHeightLand = width;
-        } else {
-            mScreenWidth = height;
-            mScreenHeight = width;
-
-            mScreenWidthLand = width;
-            mScreenHeightLand = height;
-        }
-
+    private ScaleConfig(Context ctx, int designWidth, int designHeight, int designDensity) {
+        this(ctx);
+        mDesignWidth = designWidth;
+        mDesignHeight = designHeight;
+        mDesignDensity = designDensity;
     }
 
     public int getDesignWidth() {
@@ -55,6 +55,14 @@ public class ScaleConfig {
 
     public int getDesignHeight() {
         return mDesignHeight;
+    }
+
+    public float getDesignDensity() {
+        return mDesignDensity;
+    }
+
+    public float getScreenDensity() {
+        return mScreenDensity;
     }
 
     public int getScreenWidth() {
