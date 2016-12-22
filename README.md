@@ -6,13 +6,13 @@ A Simple & Convenience MultiScreen-Support-Library for Android
 
 ### different from ``android-percent-support-lib``
 
-1. **More reliable**
-    ``android-percent-support-lib`` The percentage of the parent and child views.
-    ``Android-ScaleLayout`` The percentage of the design and devices screens.
+1. **More reliable**      
+    ``android-percent-support-lib`` The percentage of the parent and child views.       
+    ``Android-ScaleLayout`` The percentage of the design and devices screens.       
 
-2. **More convenience**
-    ``android-percent-support-lib`` need to calculate percent
-    ``Android-ScaleLayout`` directly write the design size on ''layout.xml``
+2. **More convenience**       
+    ``android-percent-support-lib`` need to calculate percent.      
+    ``Android-ScaleLayout`` directly write the design size on ``layout.xml``.       
 
 
 ## How to look?

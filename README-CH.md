@@ -6,13 +6,13 @@
 
 ### 和 android-percent-support-lib 的不同
 
-1. **更科学**
-    ``android-percent-support-lib`` 是父控件和子控件的百分比关系
-    ``Android-ScaleLayout`` 是设计界面和设备界面的百分比关系
+1. **更科学**      
+    ``android-percent-support-lib`` 是父控件和子控件的百分比关系      
+    ``Android-ScaleLayout`` 是设计界面和设备界面的百分比关系      
 
 2. **更方便**
-    ``android-percent-support-lib`` 需要把设计尺寸算成百分比
-    ``Android-ScaleLayout`` 直接把设计尺寸填入``layou.xml``即可
+    ``android-percent-support-lib`` 需要把设计尺寸算成百分比      
+    ``Android-ScaleLayout`` 直接把设计尺寸填入``layou.xml``即可      
 
 
 ## How to look?
