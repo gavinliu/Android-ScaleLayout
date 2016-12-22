@@ -27,7 +27,9 @@ public class ScaleLinearLayout extends LinearLayout {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public ScaleLinearLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        mHelper = ScaleLayoutHelper.create(this, attrs);
+        if (!isInEditMode()) {
+            mHelper = ScaleLayoutHelper.create(this, attrs);
+        }
     }
 
     @Override
@@ -37,14 +39,15 @@ public class ScaleLinearLayout extends LinearLayout {
 
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
-        return new LayoutParams(this.getContext(), attrs);
+        return new LayoutParams(this.getContext(), attrs, isInEditMode());
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        this.mHelper.adjustHost(widthMeasureSpec, heightMeasureSpec);
-        this.mHelper.adjustChildren(widthMeasureSpec, heightMeasureSpec);
-
+        if (!isInEditMode()) {
+            this.mHelper.adjustHost(widthMeasureSpec, heightMeasureSpec);
+            this.mHelper.adjustChildren(widthMeasureSpec, heightMeasureSpec);
+        }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 //        if (this.mHelper.handleMeasuredStateTooSmall()) {
 //            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -63,6 +66,13 @@ public class ScaleLinearLayout extends LinearLayout {
         public LayoutParams(Context c, AttributeSet attrs) {
             super(c, attrs);
             this.mPercentLayoutInfo = ScaleLayoutHelper.getScaleLayoutInfo(c, attrs);
+        }
+
+        private LayoutParams(Context c, AttributeSet attrs, boolean isInEditMode) {
+            super(c, attrs);
+            if (!isInEditMode) {
+                this.mPercentLayoutInfo = ScaleLayoutHelper.getScaleLayoutInfo(c, attrs);
+            }
         }
 
         public LayoutParams(int width, int height) {
