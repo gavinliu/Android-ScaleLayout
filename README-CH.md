@@ -1,18 +1,18 @@
 # Android-ScaleLayout
 
-A Simple & Convenience MultiScreen-Support-Library for Android
+一个简单的,方便的多屏适配的Android库
 
-## The essence is percent scaling.
+## 本质就是百分比缩放
 
-### different from ``android-percent-support-lib``
+### 和 android-percent-support-lib 的不同
 
-1. **More reliable**
-    ``android-percent-support-lib`` The percentage of the parent and child views.
-    ``Android-ScaleLayout`` The percentage of the design and devices screens.
+1. **更科学**
+    ``android-percent-support-lib`` 是父控件和子控件的百分比关系
+    ``Android-ScaleLayout`` 是设计界面和设备界面的百分比关系
 
-2. **More convenience**
-    ``android-percent-support-lib`` need to calculate percent
-    ``Android-ScaleLayout`` directly write the design size on ''layout.xml``
+2. **更方便**
+    ``android-percent-support-lib`` 需要把设计尺寸算成百分比
+    ``Android-ScaleLayout`` 直接把设计尺寸填入``layou.xml``即可
 
 
 ## How to look?
@@ -20,7 +20,7 @@ A Simple & Convenience MultiScreen-Support-Library for Android
 ![screenhot](/screenhot.png)
 
 
-## Principle
+## 原理
 
 ```java
 float realPixel = percent * designPixel
@@ -52,9 +52,9 @@ float designDP = res.getDimensionPixelSize() / mDensity
 float realPixel = (mScreenWidth * designDensity * getPixelSize()) / (designScreenWidth * mDensity)
 ```
 
-## Usage
+## 使用
 
-### 0. dependencies
+### 0. 依赖
 
 ```
 dependencies {
@@ -62,7 +62,7 @@ dependencies {
 }
 ```
 
-### 1. Initialize
+### 1. 初始化
 
 ```java
 public class MyApplication extends Application {
@@ -80,7 +80,7 @@ public class MyApplication extends Application {
 
 ### 2. Scale***Layout
 
-Only need to replace ``FrameLayout`` ``LinearLayout`` ``RelativeLayout`` to ``ScaleFrameLayout`` ``ScaleLinearLayout`` ``ScaleRelativeLayout``.
+只需要把 ``FrameLayout`` ``LinearLayout`` ``RelativeLayout`` 替换成 ``ScaleFrameLayout`` ``ScaleLinearLayout`` ``ScaleRelativeLayout``.
 
 ### 3. Scale by width or height
 
@@ -94,7 +94,7 @@ Only need to replace ``FrameLayout`` ``LinearLayout`` ``RelativeLayout`` to ``Sc
 app:layout_scale_by="width"
 ```
 
-### Support Attrs
+### 支持的属性
 
 ```xml
 <attr name="android:layout_width"/>
