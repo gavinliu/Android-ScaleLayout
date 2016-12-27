@@ -406,17 +406,30 @@ public class ScaleLayoutHelper {
             float density = ScaleConfig.getInstance().getScreenDensity();
             float designDensity = ScaleConfig.getInstance().getDesignDensity();
 
-            float newPix = (screen * designDensity * pix) / (design * density);
+            int designDp = convertPix2Dp(density, pix);
+            int designPix = convertDp2Pix(designDensity, designDp);
+
             int result;
-            if (newPix > 1) {
-                result = (int) Math.rint((double) newPix);
+
+            int res = designPix * screen;
+
+            if (res % design == 0) {
+                result = res / design;
             } else {
-                result = (int) Math.ceil((double) newPix);
+                result = res / design + 1;
             }
 
             if (ScaleConfig.getInstance().isDebug())
-                Log.i(TAG, "pix:" + pix + ",newPix:" + newPix + ",result:" + result);
+                Log.i(TAG, "pix:" + pix + ",dp:" + designDp + ",result:" + result);
             return result;
+        }
+
+        private static int convertPix2Dp(float density, int px) {
+            return (int) (px / density + 0.5f);
+        }
+
+        private static int convertDp2Pix(float density, int dip) {
+            return (int) (dip * density + 0.5f);
         }
     }
 

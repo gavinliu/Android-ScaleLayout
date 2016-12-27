@@ -24,7 +24,15 @@ public class ScaleConfig {
 
     private static ScaleConfig mInstance;
 
-    public static ScaleConfig create(Context ctx, int designWidth, int designHeight, int designDensity, int dimensionUnit) {
+    /**
+     * @param ctx Context
+     * @param designWidth Design Width (Pixel)
+     * @param designHeight Design Height (Pixel)
+     * @param designDensity Design Density
+     * @param dimensionUnit DIMENS_UNIT_DP or DIMENS_UNIT_PIX
+     * @return Single instance
+     */
+    public static ScaleConfig create(Context ctx, int designWidth, int designHeight, float designDensity, int dimensionUnit) {
         if (mInstance == null) {
             mInstance = new ScaleConfig(ctx, designWidth, designHeight, designDensity, dimensionUnit);
         }
@@ -49,7 +57,7 @@ public class ScaleConfig {
         mScreenDensity = density;
     }
 
-    private ScaleConfig(Context ctx, int designWidth, int designHeight, int designDensity, int dimensionUnit) {
+    private ScaleConfig(Context ctx, int designWidth, int designHeight, float designDensity, int dimensionUnit) {
         this(ctx);
         mDesignWidth = designWidth;
         mDesignHeight = designHeight;
