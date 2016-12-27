@@ -38,7 +38,7 @@
     </cn.gavinliu.android.lib.scale.ScaleLinearLayout>
 
     <cn.gavinliu.android.lib.scale.ScaleFrameLayout
-        android:layout_width="300dp"
+        android:layout_width="360dp"
         android:layout_height="300dp"
         android:layout_below="@id/view"
         android:layout_marginTop="8dp"

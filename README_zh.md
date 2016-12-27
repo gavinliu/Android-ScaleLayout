@@ -58,7 +58,7 @@ float realPixel = (mScreenWidth * designDensity * getPixelSize()) / (designScree
 
 ```
 dependencies {
-    compile 'cn.gavinliu.android.lib:ScaleLayout:1.0.2'
+    compile 'cn.gavinliu.android.lib:ScaleLayout:1.0.3'
 }
 ```
 
