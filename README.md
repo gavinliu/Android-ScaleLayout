@@ -73,16 +73,22 @@ public class MyApplication extends Application {
             1080, // Design Width
             1920, // Design Height
             3,    // Design Density
+            3,    // Design FontScale
             ScaleConfig.DIMENS_UNIT_DP);
     }
 }
 ```
+
+> ``TypedValue.COMPLEX_UNIT_SP`` is Android FontSize unit, the ``fontscale``:
+> float fontScale = ctx.getResources().getDisplayMetrics().scaledDensity;
 
 ### 2. Scale***Layout
 
 Only need to replace ``FrameLayout`` ``LinearLayout`` ``RelativeLayout`` to ``ScaleFrameLayout`` ``ScaleLinearLayout`` ``ScaleRelativeLayout``.
 
 ### 3. Scale by width or height
+
+Width is default, you can also changed using attr.
 
 ```xml
 <attr name="layout_scale_by" format="enum">

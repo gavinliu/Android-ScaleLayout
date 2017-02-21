@@ -6,10 +6,11 @@ import android.support.v4.view.MarginLayoutParamsCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import cn.gavinliu.android.lib.scale.BuildConfig;
 import cn.gavinliu.android.lib.scale.R;
 import cn.gavinliu.android.lib.scale.config.ScaleConfig;
 
@@ -53,6 +54,8 @@ public class ScaleLayoutHelper {
                     } else {
                         info.fillLayoutParams(view, params);
                     }
+
+                    info.fillView(view);
                 }
             }
         }
@@ -191,6 +194,11 @@ public class ScaleLayoutHelper {
             info.bottomPadding = value;
         }
 
+        value = array.getDimensionPixelSize(R.styleable.ScaleLayout_android_textSize, 0);
+        if (value != 0) {
+            info.textSize = value;
+        }
+
         array.recycle();
 
         if (ScaleConfig.getInstance().isDebug()) {
@@ -265,6 +273,8 @@ public class ScaleLayoutHelper {
         private int topPadding;
         private int rightPadding;
         private int bottomPadding;
+
+        private int textSize;
 
         final ViewGroup.MarginLayoutParams mPreservedParams = new ViewGroup.MarginLayoutParams(0, 0);
 
@@ -344,6 +354,15 @@ public class ScaleLayoutHelper {
 
         }
 
+        public void fillView(View view) {
+            if (view instanceof TextView) {
+                if (this.textSize > 0) {
+                    int newTextSize = getRealFontSize(this.textSize);
+                    ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_PX, newTextSize);
+                }
+            }
+        }
+
         public void restoreMarginLayoutParams(ViewGroup.MarginLayoutParams params) {
             this.restoreLayoutParams(params);
             params.leftMargin = this.mPreservedParams.leftMargin;
@@ -364,6 +383,22 @@ public class ScaleLayoutHelper {
             topPadding = top;
             rightPadding = right;
             bottomPadding = bottom;
+        }
+
+        private int getRealFontSize(int pix) {
+            int screen, design;
+            switch (scaleBy) {
+                case ScaleByHeight:
+                    screen = screenH;
+                    design = designHeight;
+                    break;
+                default:
+                    screen = screenW;
+                    design = designWidth;
+                    break;
+            }
+
+            return getRealPixelSizeBySP(pix, screen, design);
         }
 
         private int getRealPixelSize(int pix) {
@@ -424,12 +459,42 @@ public class ScaleLayoutHelper {
             return result;
         }
 
+        private int getRealPixelSizeBySP(int pix, int screen, int design) {
+            float density = ScaleConfig.getInstance().getScreenFontScale();
+            float designDensity = ScaleConfig.getInstance().getDesignFontScale();
+
+            int designDp = convertPix2Sp(density, pix);
+            int designPix = convertSp2Pix(designDensity, designDp);
+
+            int result;
+
+            int res = designPix * screen;
+
+            if (res % design == 0) {
+                result = res / design;
+            } else {
+                result = res / design + 1;
+            }
+
+            if (ScaleConfig.getInstance().isDebug())
+                Log.i(TAG, "pix:" + pix + ",sp:" + designDp + ",result:" + result);
+            return result;
+        }
+
         private static int convertPix2Dp(float density, int px) {
             return (int) (px / density + 0.5f);
         }
 
         private static int convertDp2Pix(float density, int dip) {
             return (int) (dip * density + 0.5f);
+        }
+
+        private static int convertPix2Sp(float fontScale, float pxValue) {
+            return (int) (pxValue / fontScale + 0.5f);
+        }
+
+        private static int convertSp2Pix(float fontScale, float spValue) {
+            return (int) (spValue * fontScale + 0.5f);
         }
     }
 

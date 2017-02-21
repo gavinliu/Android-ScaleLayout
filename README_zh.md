@@ -73,16 +73,22 @@ public class MyApplication extends Application {
             1080, // Design Width
             1920, // Design Height
             3,    // Design Density
+            3,    // Design FontScale
             ScaleConfig.DIMENS_UNIT_DP);
     }
 }
 ```
+
+> Android 文字大小的单位是 ``sp``，字体的缩放方式需要 FontScale：
+> float fontScale = ctx.getResources().getDisplayMetrics().scaledDensity;
 
 ### 2. Scale***Layout
 
 只需要把 ``FrameLayout`` ``LinearLayout`` ``RelativeLayout`` 替换成 ``ScaleFrameLayout`` ``ScaleLinearLayout`` ``ScaleRelativeLayout``.
 
 ### 3. Scale by width or height
+
+默认是 width，当然你可以用属性修改。
 
 ```xml
 <attr name="layout_scale_by" format="enum">
@@ -115,6 +121,9 @@ app:layout_scale_by="width"
 <attr name="android:paddingBottom"/>
 <attr name="android:paddingStart"/>
 <attr name="android:paddingEnd"/>
+
+<!-- TextView -->
+<attr name="android:textSize"/>
 ```
 
 ## License

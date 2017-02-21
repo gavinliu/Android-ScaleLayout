@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 24
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 5
+        versionName "1.0.4"
     }
     buildTypes {
         release {
@@ -28,7 +28,7 @@ apply plugin: 'com.jfrog.bintray'
 def siteUrl = 'https://github.com/gavinliu/Android-ScaleLayout' // 项目的主页
 def gitUrl = 'https://github.com/gavinliu/Android-ScaleLayout.git' // Git仓库的url
 
-version = "1.0.3"
+version = "1.0.4"
 group = "cn.gavinliu.android.lib"
 
 install {

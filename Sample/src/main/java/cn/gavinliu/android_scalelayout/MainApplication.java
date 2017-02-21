@@ -13,7 +13,12 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ScaleConfig.create(this, 1080, 1920, 3f, ScaleConfig.DIMENS_UNIT_DP);
+        ScaleConfig.create(this,
+                1080, // Design Width
+                1920, // Design Height
+                3,    // Design Density
+                3,    // Design FontScale
+                ScaleConfig.DIMENS_UNIT_DP);
         ScaleConfig.getInstance().setDebug(true);
     }
 }

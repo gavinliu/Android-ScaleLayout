@@ -15,6 +15,9 @@ public class ScaleConfig {
     private int mScreenHeight;
     private float mScreenDensity;
 
+    private float mDesignFontScale;
+    private float mScreenFontScale;
+
     private int mDimensionUnit;
 
     public static final int DIMENS_UNIT_DP = 0;
@@ -25,16 +28,17 @@ public class ScaleConfig {
     private static ScaleConfig mInstance;
 
     /**
-     * @param ctx Context
-     * @param designWidth Design Width (Pixel)
-     * @param designHeight Design Height (Pixel)
-     * @param designDensity Design Density
-     * @param dimensionUnit DIMENS_UNIT_DP or DIMENS_UNIT_PIX
+     * @param ctx             Context
+     * @param designWidth     Design Width (Pixel)
+     * @param designHeight    Design Height (Pixel)
+     * @param designDensity   Design Density
+     * @param designFontScale Design FontScale (getDisplayMetrics().scaledDensity)
+     * @param dimensionUnit   DIMENS_UNIT_DP or DIMENS_UNIT_PIX
      * @return Single instance
      */
-    public static ScaleConfig create(Context ctx, int designWidth, int designHeight, float designDensity, int dimensionUnit) {
+    public static ScaleConfig create(Context ctx, int designWidth, int designHeight, float designDensity, float designFontScale, int dimensionUnit) {
         if (mInstance == null) {
-            mInstance = new ScaleConfig(ctx, designWidth, designHeight, designDensity, dimensionUnit);
+            mInstance = new ScaleConfig(ctx, designWidth, designHeight, designDensity, designFontScale, dimensionUnit);
         }
 
         return mInstance;
@@ -51,17 +55,20 @@ public class ScaleConfig {
         final int width = ctx.getResources().getDisplayMetrics().widthPixels;
         final int height = ctx.getResources().getDisplayMetrics().heightPixels;
         final float density = ctx.getResources().getDisplayMetrics().density;
+        final float fontScale = ctx.getResources().getDisplayMetrics().scaledDensity;
 
         mScreenWidth = width;
         mScreenHeight = height;
         mScreenDensity = density;
+        mScreenFontScale = fontScale;
     }
 
-    private ScaleConfig(Context ctx, int designWidth, int designHeight, float designDensity, int dimensionUnit) {
+    private ScaleConfig(Context ctx, int designWidth, int designHeight, float designDensity, float designFontScale, int dimensionUnit) {
         this(ctx);
         mDesignWidth = designWidth;
         mDesignHeight = designHeight;
         mDesignDensity = designDensity;
+        mDesignFontScale = designFontScale;
         mDimensionUnit = dimensionUnit;
     }
 
@@ -91,6 +98,14 @@ public class ScaleConfig {
 
     public float getScreenDensity() {
         return mScreenDensity;
+    }
+
+    public float getDesignFontScale() {
+        return mDesignFontScale;
+    }
+
+    public float getScreenFontScale() {
+        return mScreenFontScale;
     }
 
     public int getScreenWidth() {
