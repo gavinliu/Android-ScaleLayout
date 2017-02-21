@@ -58,7 +58,7 @@ float realPixel = (mScreenWidth * designDensity * getPixelSize()) / (designScree
 
 ```
 dependencies {
-    compile 'cn.gavinliu.android.lib:ScaleLayout:1.0.3'
+    compile 'cn.gavinliu.android.lib:ScaleLayout:1.0.4'
 }
 ```
 
@@ -121,6 +121,9 @@ app:layout_scale_by="width"
 <attr name="android:paddingBottom"/>
 <attr name="android:paddingStart"/>
 <attr name="android:paddingEnd"/>
+
+<!-- TextView -->
+<attr name="android:textSize"/>
 ```
 
 ## License
